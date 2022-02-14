@@ -23,5 +23,29 @@ server <- function(input, output) {
 
 shinyApp(ui = ui, server = server)
 
+library(shiny)
+library(fpp3)
+data("tourism")
+
+Data <- subset(tourism, Region == "Adelaide")
+
+ui <- fluidPage(
+  selectInput(
+    inputId = "Purpose",
+    label = "Select Purpose(s)",
+    choices = unique(tourism$Purpose),
+    multiple = TRUE
+  ),
+  plotOutput("plotted_series")
+)
+
+server <- function(input, output) {
+  output$plotted_series <- renderPlot(input$Purpose)
+  
+}
+
+shinyApp(ui, server)
+
+
 
 
